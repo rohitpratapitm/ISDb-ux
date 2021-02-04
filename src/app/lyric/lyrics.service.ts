@@ -1,4 +1,5 @@
-import { HttpUtilService } from './../common/http-util.service';
+import { HttpUtilService } from './../common/services/http-util.service';
+
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 

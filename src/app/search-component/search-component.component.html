@@ -1,42 +1,30 @@
-<p>search-component works!</p>
 <div class="row">
-    <div class="col-xs-6">
-        <label>Search</label>
-        <input [(ngModel)]="query" type="text" placeholder="Search..">
-        <button type="button" (click)="getResults()"><i class="fa fa-search"></i></button>
+    <div class="col-md-4">
+        <app-search-criteria-dropdown 
+            [selectedSearchType]="searchCriteria"
+            (selectedCriteria)="setSearchPlaceholder($event)"></app-search-criteria-dropdown>
+    </div>
+    <div class="col-md-8 form-group">
+            <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" 
+                        type="search" 
+                        [(ngModel)]="query" 
+                        id="example-search-input"
+                        [placeholder]="placeholder" >
+                        <button class="btn btn-outline-primary rounded-right" 
+                                type="button"
+                                (click)="getResults()">
+                                <i class="fa fa-search"></i>
+                        </button>
+                </div>
     </div>
 </div>
-<div>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-                <!--- Note that these columns can be defined in any order.
-                      The actual rendered columns are set as a property on the row definition" -->
-              
-                <!-- Position Column -->
-                <ng-container matColumnDef="singerName">
-                  <th mat-header-cell *matHeaderCellDef> Singer Name </th>
-                  <td mat-cell *matCellDef="let songInfo"> {{songInfo.singerName}} </td>
-                </ng-container>
-              
-                <!-- Name Column -->
-                <ng-container matColumnDef="albumName">
-                  <th mat-header-cell *matHeaderCellDef> Album Name </th>
-                  <td mat-cell *matCellDef="let songInfo"> {{songInfo.albumName}} </td>
-                </ng-container>
-              
-                <!-- Weight Column -->
-                <ng-container matColumnDef="releaseYear">
-                  <th mat-header-cell *matHeaderCellDef> Release Year</th>
-                  <td mat-cell *matCellDef="let songInfo"> {{songInfo.releaseYear}} </td>
-                </ng-container>
-              
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="lyrics">
-                  <th mat-header-cell *matHeaderCellDef> Lyrics </th>
-                  <td mat-cell *matCellDef="let songInfo"> {{songInfo.lyrics}} </td>
-                </ng-container>
-              
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
+<div class="row">
+    <div class="offset-4 col-md-8">
+        <div *ngFor="let songInfo of songsInfo">
+            <app-song-display [songInfo]="songInfo"></app-song-display>
+            <hr>
+        </div>
+    </div>
 </div>
+

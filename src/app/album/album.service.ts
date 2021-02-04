@@ -1,7 +1,8 @@
+import { HttpUtilService } from './../common/services/http-util.service';
 import { AlbumInfo } from './../song/song-info.model';
 
 
-import { HttpUtilService } from './../common/http-util.service';
+
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 

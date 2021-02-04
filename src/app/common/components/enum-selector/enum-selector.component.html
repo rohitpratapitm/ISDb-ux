@@ -1,0 +1,5 @@
+<div class="form-group">
+  <select class="form-control" id="sel1" [(ngModel)]="value" (change)="triggerOnChangeEvent($event.target.value)">
+    <option *ngFor="let key of anEnum?.keys" [value]="key">{{key}}</option>
+  </select>
+</div>
