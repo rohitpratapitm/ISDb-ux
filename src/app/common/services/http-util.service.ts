@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
 import { Observable } from 'rxjs/internal/Observable';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -12,10 +13,10 @@ export class HttpUtilService {
 
   private headers: HttpHeaders = new HttpHeaders();
   private params: HttpParams = new HttpParams();
+  readonly SERVER_URL: string = environment.host;
 
   constructor(private httpClient: HttpClient) {
-    this.headers = this.headers.set('x-happi-key', '6ab9e3HDRjbLz3BOjfyJifPt2SYebGjWpH4vsUNp5WXX2Oux2uIgo748');
-    // bd679e162fmsh3b27d1af46c4019p16b649jsneabc33a8416b
+    environment.headers.forEach((value, key) => this.headers = this.headers.set(key, value));
   }
 
   public get<T>(url: string, params?: HttpParams): Observable<T> {
