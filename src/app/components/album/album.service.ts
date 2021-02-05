@@ -1,4 +1,4 @@
-import { HttpUtilService } from './../common/services/http-util.service';
+
 import { AlbumInfo } from './../song/song-info.model';
 
 
@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { ApiResponse } from '../search-component/api-response.model';
 import { Album } from '../song/song-info.model';
+import { HttpUtilService } from 'src/app/common/services/http-util.service';
 
 @Injectable({
   providedIn: 'root'

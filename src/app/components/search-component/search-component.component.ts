@@ -1,11 +1,11 @@
-import { SearchType } from './../common/enums/search-type.enum';
-import { LyricsService } from './../lyric/lyrics.service';
-import { AlbumService } from './../album/album.service';
-
+import { SearchType } from './../../common/enums/search-type.enum';
 import { Component } from '@angular/core';
 import { SongService } from '../song/song.service';
-import { SongInfo } from '../song/song-info.model';
+import { SongInfo, Artist } from '../song/song-info.model';
 import { TrackService } from '../track/track.service';
+import { AlbumService } from '../album/album.service';
+import { LyricsService } from '../lyrics/lyrics.service';
+import { ArtistService } from '../artist/artist.service';
 
 @Component({
   selector: 'app-search-component',
@@ -14,9 +14,13 @@ import { TrackService } from '../track/track.service';
 })
 export class SearchComponentComponent {
 
+  readonly MAX_QUERY_LENGTH: number = 25;
+  readonly MIN_QUERY_LENGTH: number = 3;
+  readonly SEARCH_TYPE = SearchType;
+
   songsInfo: SongInfo[] = [];
+  artists: Artist[] = [];
   query: string;
-  searchType: string;
   show: boolean = false;
   placeholder: string = 'search by song title..';
   searchCriteria: SearchType = SearchType.Title; // default is Title
@@ -25,11 +29,15 @@ export class SearchComponentComponent {
     private songService: SongService,
     private albumService: AlbumService,
     private lyricsService: LyricsService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private artistService: ArtistService,
   ) { }
 
   public getResults(): void {
     this.songsInfo = [];
+    if (!this.query){
+      return;
+    }
     if (this.searchCriteria === SearchType.Title) {
       this.songService.getSongInfoByTitleStream(this.query).subscribe(songs => {
         if (songs) {
@@ -48,7 +56,6 @@ export class SearchComponentComponent {
                       lyrics: lyrics.lyrics,
                       releaseYear: album.realease
                     };
-                    console.log(JSON.stringify(songInfo));
                     this.songsInfo.push(songInfo);
                   });
               });
@@ -56,7 +63,19 @@ export class SearchComponentComponent {
         }
       });
     } else {
+      this.artists = [];
       // search by artist
+      this.artistService.getArtistsStream(8663).subscribe(artists => {
+        if (artists) {
+          artists.forEach(artistInfo => {
+            if (artistInfo.artist.toLowerCase().includes(this.query.toLowerCase())) {
+                this.artistService.getArtistStream(artistInfo.id_artist).subscribe(artist => {
+                this.artists.push(artist);
+              });
+            }
+          });
+        }
+      });
     }
   }
 

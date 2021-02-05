@@ -1,4 +1,4 @@
-import { HttpUtilService } from './../common/services/http-util.service';
+
 
 
 import { Injectable } from '@angular/core';
@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { ApiResponse } from '../search-component/api-response.model';
 import { ArtistInfo, Artist } from '../song/song-info.model';
+import { HttpUtilService } from 'src/app/common/services/http-util.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,9 @@ export class ArtistService {
     return this.httpUtil.get<ApiResponse>(this.URL, httpParams).pipe(map(response => response.result as ArtistInfo[] ));
   }
 
-  public getArtistStream(id: string): Observable<Artist> {
-    const httpParams: HttpParams = new HttpParams().set('id_artist', id);
-    return this.httpUtil.get<ApiResponse>(this.URL, httpParams).pipe(map(response => response.result as Artist));
+  public getArtistStream(id: number): Observable<Artist> {
+    const ARTIST_URL: string = `${this.URL}/${id}`;
+    const httpParams: HttpParams = new HttpParams().set('id_artist', id.toString());
+    return this.httpUtil.get<ApiResponse>(ARTIST_URL, httpParams).pipe(map(response => response.result as Artist));
   }
 }

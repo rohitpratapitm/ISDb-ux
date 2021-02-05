@@ -1,4 +1,5 @@
-import { HttpUtilService } from './../common/services/http-util.service';
+
+
 
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
@@ -7,6 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { ApiResponse } from '../search-component/api-response.model';
 import { Lyrics } from './lyrics.model';
+import { HttpUtilService } from 'src/app/common/services/http-util.service';
 
 @Injectable({
   providedIn: 'root'

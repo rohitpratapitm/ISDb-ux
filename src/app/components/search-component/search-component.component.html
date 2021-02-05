@@ -8,8 +8,16 @@
             <div class="input-group">
                     <input class="form-control py-2 border-right-0 border" 
                         type="search" 
+                        appInvalidCharacters
+                        appInputRestriction="noSpecialChars"
                         [(ngModel)]="query" 
                         id="example-search-input"
+                        [maxlength]="MAX_QUERY_LENGTH"
+                        [minlength]="MIN_QUERY_LENGTH"
+                        required
+                        
+                        pattern="/[A-Z]{5}\d{4}[A-Z]{1}/i"
+                        (keydown.enter)="getResults()"
                         [placeholder]="placeholder" >
                         <button class="btn btn-outline-primary rounded-right" 
                                 type="button"
@@ -21,10 +29,19 @@
 </div>
 <div class="row">
     <div class="offset-4 col-md-8">
-        <div *ngFor="let songInfo of songsInfo">
-            <app-song-display [songInfo]="songInfo"></app-song-display>
-            <hr>
+        <div *ngIf="searchCriteria === SEARCH_TYPE.Title; else artistTemplate">
+                <div *ngFor="let songInfo of songsInfo">
+                        <app-song-display [songInfo]="songInfo"></app-song-display>
+                        <hr>
+                    </div>
         </div>
+        <ng-template #artistTemplate>
+                <div *ngFor="let artist of artists">
+                        <app-artist-display [artist]="artist"></app-artist-display>
+                        <hr>
+                    </div>
+        </ng-template>
+        
     </div>
 </div>
 
