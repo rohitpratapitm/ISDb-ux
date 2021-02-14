@@ -6,24 +6,31 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { environment } from 'src/environments/environment';
 
 
+/**
+ * Utility service to make http call over network.
+ * It is wrapper over angular's httpClient service.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class HttpUtilService {
 
   private headers: HttpHeaders = new HttpHeaders();
-  private params: HttpParams = new HttpParams();
-  readonly SERVER_URL: string = environment.host;
 
   constructor(private httpClient: HttpClient) {
+    // read corresponding header values defined in environment configuration file and set it.
     environment.headers.forEach((value, key) => this.headers = this.headers.set(key, value));
   }
 
+  /**
+   * This method makes an HTTP GET call and returns typed data.
+   * @param url REST service end points
+   * @param params query parameters 
+   */
   public get<T>(url: string, params?: HttpParams): Observable<T> {
-    this.params = params;
     return this.httpClient.get<T>(url, {
       headers: this.headers,
-      params: this.params
+      params
     }).pipe(catchError(this.handleError));
   }
 

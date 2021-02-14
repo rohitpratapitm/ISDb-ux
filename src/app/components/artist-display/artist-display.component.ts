@@ -1,5 +1,6 @@
-import { Artist } from '../song/song-info.model';
+
 import { Component, Input } from '@angular/core';
+import { Artist } from '../artist/artist.model';
 
 @Component({
   selector: 'app-artist-display',

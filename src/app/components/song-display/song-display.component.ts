@@ -1,5 +1,5 @@
-import { SongInfo } from './../song/song-info.model';
 import { Component, OnInit, Input } from '@angular/core';
+import { Song } from '../song/song.model';
 
 @Component({
   selector: 'app-song-display',
@@ -9,6 +9,6 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SongDisplayComponent {
 
   @Input()
-  songInfo: SongInfo;
+  song: Song;
 
 }

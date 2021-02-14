@@ -1,6 +1,8 @@
 <div>
-  <div><strong>{{songInfo?.albumName}}</strong></div>
-  <div>{{songInfo?.releaseYear}}</div>
-  <div>{{songInfo?.singerName}}</div>
-  <div><i>{{songInfo?.lyrics}}</i></div>
+  <div><strong>{{song?.album?.full_title}}</strong></div>
+  <div>{{song?.releaseDate}}</div>
+  <div *ngFor = "let singer of song?.singers">
+    <div>{{singer?.fullName}}</div>
+  </div>
+  <div><i>{{song?.title}}</i></div>
 </div>

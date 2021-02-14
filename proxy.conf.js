@@ -1,11 +1,13 @@
 const PROXY_CONFIG = {
-  "/api": {
-    "target": "https://api.happi.dev",
+  "/genius-api": {
+    "target": "https://genius.p.rapidapi.com",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
-      "^/api": ""
-    }
-  }
+      "^/genius-api": ""
+    },
+    "logLevel": "debug"
+  },
+
 }
 module.exports = PROXY_CONFIG;
