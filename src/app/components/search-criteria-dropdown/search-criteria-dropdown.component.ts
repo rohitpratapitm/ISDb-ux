@@ -6,8 +6,7 @@ import { EnumValueOnChangePayload } from 'src/app/common/components/enum-selecto
 
 @Component({
   selector: 'app-search-criteria-dropdown',
-  templateUrl: './search-criteria-dropdown.component.html',
-  styleUrls: ['./search-criteria-dropdown.component.css']
+  templateUrl: './search-criteria-dropdown.component.html'
 })
 export class SearchCriteriaDropdownComponent {
 

@@ -7,8 +7,7 @@ import { SearchService } from './search.service';
 
 @Component({
   selector: 'app-search-component',
-  templateUrl: './search-component.component.html',
-  styleUrls: ['./search-component.component.css']
+  templateUrl: './search-component.component.html'
 })
 export class SearchComponentComponent {
 

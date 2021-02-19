@@ -3,8 +3,7 @@ import { EnumSelector } from '../../services/enum-selector';
 
 @Component({
   selector: 'app-enum-selector',
-  templateUrl: './enum-selector.component.html',
-  styleUrls: ['./enum-selector.component.css']
+  templateUrl: './enum-selector.component.html'
 })
 export class EnumSelectorComponent<T> {
 

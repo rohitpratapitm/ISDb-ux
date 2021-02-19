@@ -1,41 +1,33 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-4">
-      <app-search-criteria-dropdown [selectedSearchType]="searchCriteria"
-        (selectedCriteria)="setSearchPlaceholder($event)"></app-search-criteria-dropdown>
-    </div>
-    <div class="col-md-8 form-group">
-      <div class="input-group">
-        <input class="form-control mr-sm-2" type="search" appInvalidCharacters appInputRestriction="noSpecialChars"
-          [(ngModel)]="query" id="example-search-input" maxlength="MAX_QUERY_LENGTH" minlength="MIN_QUERY_LENGTH"
-          required #name="ngModel" pattern="/[A-Z]{5}\d{4}[A-Z]{1}/i" (keydown.enter)="getResults()"
-          [placeholder]="placeholder">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="button" (click)="getResults()">
-          <i class="fa fa-search"></i>
-        </button>
-        <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-                            <div>Search text must be at least 2 characters long</div> 
-                        </div> -->
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="offset-4 col-md-8">
-      <div *ngIf="searchCriteria === SEARCH_TYPE.Title; else artistTemplate">
-        <div *ngFor="let song of songs | async">
-          <div (click)="emitSelectedItem(song?.id)">
-            <app-song-display [song]="song"></app-song-display>
-          </div>
-          <hr>
-        </div>
-      </div>
-      <ng-template #artistTemplate>
-        <div *ngFor="let artist of artists | async">
-          <app-artist-display [artist]="artist"></app-artist-display>
-          <hr>
-        </div>
-      </ng-template>
 
+
+<div class="row form-group">
+  <div class="offset-1 col-lg-1">
+    <app-search-criteria-dropdown [selectedSearchType]="searchCriteria" (selectedCriteria)="setSearchPlaceholder($event)">
+    </app-search-criteria-dropdown>
+  </div>
+  <div class="col-lg-9">
+    <input class="form-control" type="search" appInvalidCharacters appInputRestriction="noSpecialChars" [(ngModel)]="query"
+  id="example-search-input" maxlength="MAX_QUERY_LENGTH" minlength="MIN_QUERY_LENGTH" required #name="ngModel"
+  pattern="/[A-Z]{5}\d{4}[A-Z]{1}/i" (keydown.enter)="getResults()" [placeholder]="placeholder">
+  </div>
+</div>
+
+<div class="row">
+  <div class="offset-2 col-lg-9">
+    <div *ngIf="searchCriteria === SEARCH_TYPE.Title; else artistTemplate">
+      <div *ngFor="let song of songs | async">
+        <div (click)="emitSelectedItem(song?.id)">
+          <app-song-display [song]="song"></app-song-display>
+        </div>
+        <hr>
+      </div>
     </div>
+    <ng-template #artistTemplate>
+      <div *ngFor="let artist of artists | async">
+        <app-artist-display [artist]="artist"></app-artist-display>
+        <hr>
+      </div>
+    </ng-template>
+
   </div>
 </div>
