@@ -1,7 +1,14 @@
-<div class="jumbotron text-center">
-    <h1>ISDb</h1>
-    <p>International Songs Database</p>
-  </div>
-<div class="container-fluid">
-    <app-search-component></app-search-component>
-</div>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="flex-grow-1 d-flex" id="navbarTogglerDemo03">
+      <form class="form-inline flex-nowrap bg-light mx-0 mx-lg-auto rounded p-1">
+        <app-search-component (selectedItem)="selectedItem($event)"></app-search-component>
+      </form>
+    </div>
+  </nav>
+</header>
+<footer>
+  <nav class="navbar fixed-bottom navbar-light bg-light">
+    <a class="navbar-brand" href="#">Fixed bottom</a>
+  </nav>
+</footer>

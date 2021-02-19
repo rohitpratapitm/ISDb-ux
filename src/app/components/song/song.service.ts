@@ -16,35 +16,14 @@ export class SongProxy {
 
   readonly ROOT_CONTEXT: string = '/genius-api';
   readonly URL: string = `${this.ROOT_CONTEXT}/songs`;
-  readonly SEARCH_URL: string = `${this.ROOT_CONTEXT}/search`;
 
   constructor(private httpUtil: HttpUtilService) { }
-
-  public searchSongsStream(query: string): Observable<Song[]> {
-    const httpParams: HttpParams = new HttpParams().set('q', query);
-    return this.httpUtil.get<ApiResponseWrapper>(this.SEARCH_URL, httpParams)
-      .pipe(map(apiResponseWrapper => this.mapSongsResponse(apiResponseWrapper)))
-      .pipe(map((songResponses: SongResponse[]) => {
-        const songs: Song[] = [];
-        songResponses.forEach((songResponse: SongResponse) => this.getSongStream(songResponse.id).subscribe(song => songs.push(song)));
-        return songs;
-      }));
-  }
 
   public getSongStream(id: number): Observable<Song> {
     const SONG_URL: string = `${this.URL}/${id}`;
     const httpParams: HttpParams = new HttpParams().set('id', id.toString());
     return this.httpUtil.get<ApiResponseWrapper>(SONG_URL, httpParams)
       .pipe(map(apiResponseWrapper => this.mapResponse(apiResponseWrapper)));
-  }
-
-  public mapSongsResponse(apiResponseWrapper: ApiResponseWrapper): SongResponse[] {
-    if (apiResponseWrapper.meta.status === HttpStatusCode.SUCCESS) {
-      const apiHitsResponse: ApiHitsResponse = apiResponseWrapper.response as ApiHitsResponse;
-      const songResponses: SongResponse[] = [];
-      apiHitsResponse.hits.filter(hit => hit.type === HitsEnum.Song).forEach(hit => songResponses.push(hit.result));
-      return songResponses;
-    }
   }
 
   public mapResponse(apiResponseWrapper: ApiResponseWrapper): Song {
@@ -55,28 +34,28 @@ export class SongProxy {
     }
   }
 
-  private mapSong(songResponse: SongResponse): Song {
+  public mapSong(songResponse: SongResponse): Song {
     const song: Song = {
       id: songResponse.id,
       album: songResponse.album,
-      composers: this.getArtists(songResponse.writer_artists),
+      composers: this.getArtists(new Set<ArtistResponse>(songResponse.writer_artists)),
       releaseDate: songResponse.release_date,
-      singers: this.getArtists([songResponse.primary_artist]),
+      singers: this.getArtists(new Set<ArtistResponse>([songResponse.primary_artist])),
       title: songResponse.title
     };
     return song;
   }
 
-  private getArtists(artistsResponse: ArtistResponse[]): Artist[] {
+  private getArtists(artistsResponse: Set<ArtistResponse>): Set<Artist> {
     if (artistsResponse) {
-      const artists: Artist[] = [];
+      const artists: Set<Artist> = new Set<Artist>();
       artistsResponse.forEach(artistResponse => {
         if (artistResponse) {
           const artist: Artist = {
             id: artistResponse.id,
             fullName: artistResponse.name
           };
-          artists.push(artist);
+          artists.add(artist);
         }
       });
       return artists;

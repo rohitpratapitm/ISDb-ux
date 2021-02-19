@@ -1,11 +1,9 @@
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { SearchType } from './../../common/enums/search-type.enum';
-import { Component } from '@angular/core';
-import { SearchService } from './search.service';
 import { Artist } from '../artist/artist.model';
 import { Song } from '../song/song.model';
-import { ArtistProxy } from '../artist/artist.service';
-import { of } from 'rxjs/internal/observable/of';
+import { SearchType } from './../../common/enums/search-type.enum';
+import { SearchService } from './search.service';
 
 @Component({
   selector: 'app-search-component',
@@ -18,20 +16,21 @@ export class SearchComponentComponent {
   readonly MIN_QUERY_LENGTH: number = 3;
   readonly SEARCH_TYPE = SearchType;
 
-  songs: Observable<Song[]>;
-  artists: Observable<Artist[]>;
+  @Output()
+  private selectedItem: EventEmitter<string> = new EventEmitter<string>();
+  songs: Observable<Set<Song>>;
+  artists: Observable<Set<Artist>>;
   query: string;
   show: boolean = false;
   placeholder: string = 'search by song title..';
   searchCriteria: SearchType = SearchType.Title; // default is Title
 
   constructor(
-    private searchService: SearchService,
-    private artistService: ArtistProxy,
+    private searchService: SearchService
   ) { }
 
   public getResults(): void {
-    if (!this.query){
+    if (!this.query || this.query.length < this.MIN_QUERY_LENGTH || this.query.length > this.MAX_QUERY_LENGTH ){
       return;
     }
     if (this.searchCriteria === SearchType.Title) {
@@ -48,5 +47,9 @@ export class SearchComponentComponent {
       searchType === SearchType.Title
         ? 'search by song title..'
         : 'search by artist name';
+  }
+
+  emitSelectedItem(url: string): void {
+    this.selectedItem.emit(url);
   }
 }

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.js -c prod-genius",
+    "start": "ng serve --proxy-config proxy.conf.js --prod",
     "build": "ng build",
     "buildserve": "npm run build & npm run start",
     "test": "ng test",

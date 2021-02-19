@@ -4,8 +4,8 @@ import { Artist } from '../artist/artist.model';
 export interface Song {
     id: number;
     title: string;
-    singers: Artist[];
-    composers: Artist[];
+    singers: Set<Artist>;
+    composers: Set<Artist>;
     releaseDate: string;
     album: Album;
 }

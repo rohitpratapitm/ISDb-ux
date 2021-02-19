@@ -7,9 +7,16 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  
   title = 'ISDb: Search songs and artists';
+  
+  private url: string;
 
   constructor(private titleService: Title){
     this.titleService.setTitle(this.title);
+  }
+
+  selectedItem(url: string): void {
+    this.url = url;
   }
 }

@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Artist } from './artist.model';
+import { Song } from '../song/song.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +43,7 @@ export class ArtistProxy {
       })
     );
   }
+  
   getBio(description: Description): string {
     let bio: string = '';
     description.dom.children.forEach((child) => {
