@@ -8,4 +8,7 @@ export interface Song {
     composers: Set<Artist>;
     releaseDate: string;
     album: Album;
+    musicPlayerURL?: string;
+    headerImageURL?: string;
+    
 }

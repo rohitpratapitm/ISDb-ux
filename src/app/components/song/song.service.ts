@@ -1,13 +1,11 @@
-import { ApiResponseWrapper, HttpStatusCode, HitsResponse, HitsEnum,
-  ApiHitsResponse, ArtistResponse, Dom, HttpStatus, SongResponse, ApiSongResponse } from './../artist/artist-api-response.model';
+import { ApiResponseWrapper, HttpStatusCode, ArtistResponse, SongResponse, ApiSongResponse } from './../artist/artist-api-response.model';
 import { Song } from './song.model';
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { combineAll, concat, concatAll, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpUtilService } from 'src/app/common/services/http-util.service';
 import { Artist } from '../artist/artist.model';
-import { from } from 'rxjs/internal/observable/from';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +39,9 @@ export class SongProxy {
       composers: this.getArtists(new Set<ArtistResponse>(songResponse.writer_artists)),
       releaseDate: songResponse.release_date,
       singers: this.getArtists(new Set<ArtistResponse>([songResponse.primary_artist])),
-      title: songResponse.title
+      title: songResponse.title,
+      musicPlayerURL: songResponse.apple_music_player_url,
+      headerImageURL: songResponse.header_image_url
     };
     return song;
   }

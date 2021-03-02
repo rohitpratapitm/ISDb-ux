@@ -5,6 +5,10 @@ import { Song } from '../song/song.model';
 import { SearchType } from './../../common/enums/search-type.enum';
 import { SearchService } from './search.service';
 
+/**
+ * This component is responsible for showing the search box along with search dropdown.
+ * It queries the backend APIs for a given input.
+ */
 @Component({
   selector: 'app-search-component',
   templateUrl: './search-component.component.html'
@@ -16,7 +20,9 @@ export class SearchComponentComponent {
   readonly SEARCH_TYPE = SearchType;
 
   @Output()
-  private selectedItem: EventEmitter<string> = new EventEmitter<string>();
+  private selectedSong: EventEmitter<Song> = new EventEmitter<Song>();
+  @Output()
+  private selectedArtist: EventEmitter<Artist> = new EventEmitter<Artist>();
   songs: Observable<Set<Song>>;
   artists: Observable<Set<Artist>>;
   query: string;
@@ -28,6 +34,10 @@ export class SearchComponentComponent {
     private searchService: SearchService
   ) { }
 
+  /**
+   * Fetches results for a given query string.
+   * Ensures that query string adheres to minimum and maximum query length validation.
+   */
   public getResults(): void {
     if (!this.query || this.query.length < this.MIN_QUERY_LENGTH || this.query.length > this.MAX_QUERY_LENGTH ){
       return;
@@ -37,9 +47,15 @@ export class SearchComponentComponent {
     }
     else if (this.searchCriteria === SearchType.Artist) {
        this.artists = this.searchService.searchArtistsStream(this.query);
+    } else {
+      console.warn(`Unknown search criteria type received: ${this.searchCriteria}`);
     }
   }
 
+  /**
+   * Sets the placeholder string in the search box
+   * @param searchType Any of the search type enum value. Possible values are : Artist and Title
+   */
   setSearchPlaceholder(searchType: SearchType): void {
     this.searchCriteria = searchType;
     this.placeholder =
@@ -48,7 +64,19 @@ export class SearchComponentComponent {
         : 'search by artist name';
   }
 
-  emitSelectedItem(url: string): void {
-    this.selectedItem.emit(url);
+  /**
+   * This method emits the selected song
+   * @param song song to be emitted
+   */
+  emitSelectedSong(song: Song): void {
+    this.selectedSong.emit(song);
+  }
+
+  /**
+   * This method emits the selected artist
+   * @param artist artist to be emitted
+   */
+  emitSelectedArtist(artist: Artist): void {
+    this.selectedArtist.emit(artist);
   }
 }

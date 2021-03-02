@@ -8,24 +8,25 @@
     
       <div class="welcome__center">
         <div class="spark-container">
-          <app-search-component class="col-lg-12"></app-search-component>
+          <app-search-component class="col-lg-12"
+              (selectedSong)="setSelectedSong($event)"
+              (selectedArtist)="setSelectedArtist($event)">
+        </app-search-component>
           
         </div>
       </div>
 
       </mat-card>
   </section>
-  <section class="dash-row">
-
+  <section *ngIf="song || artist" class="dash-row">
     <mat-card id="card-0-1" style="color: white">
       <mat-card-title >
-        Lyrics
       </mat-card-title>
       <mat-card-subtitle style="color: white">www.yourwebsite.com</mat-card-subtitle>
-      <!-- <zingchart-angular #subscribers [config]="websiteTraffic" [height]="'250px'"></zingchart-angular> -->
-
+      <img src="{{song?.headerImageURL}}" alt="Sorry.No image found!">
     </mat-card>
-        <mat-card id="card-0-2">
+
+    <mat-card id="card-0-2">
       <mat-card-title >
         Info
       </mat-card-title>
@@ -35,10 +36,10 @@
     </mat-card>
         <mat-card id="card-1-1">
       <mat-card-title style="color: white">
-        Player
+        Music Player
       </mat-card-title>
       <mat-card-subtitle style="color: white">Your customer's interactions</mat-card-subtitle>
-      <!-- <zingchart-angular [config]="customerInteractions" [height]="'220px'"></zingchart-angular> -->
+      <!-- <iframe src="{{getSafeURL(song?.musicPlayerURL)}}"></iframe> -->
     </mat-card>
 
   </section>

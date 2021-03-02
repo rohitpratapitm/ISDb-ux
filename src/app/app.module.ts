@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule} from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EnumSelectorComponent } from './common/components/enum-selector/enum-selector.component';
@@ -28,7 +28,7 @@ import { InvalidCharactersDirective } from './common/invalid-characters/invalid-
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatCardModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

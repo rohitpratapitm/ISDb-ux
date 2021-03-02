@@ -16,15 +16,17 @@
   <div class="offset-2 col-lg-9">
     <div *ngIf="searchCriteria === SEARCH_TYPE.Title; else artistTemplate">
       <div *ngFor="let song of songs | async">
-        <div (click)="emitSelectedItem(song?.id)">
+        <span (click)="emitSelectedSong(song)" style="color: blue; cursor: pointer">
           <app-song-display [song]="song"></app-song-display>
-        </div>
+        </span>
         <hr>
       </div>
     </div>
     <ng-template #artistTemplate>
       <div *ngFor="let artist of artists | async">
-        <app-artist-display [artist]="artist"></app-artist-display>
+        <div (click)="emitSelectedArtist(artist)">
+          <app-artist-display [artist]="artist"></app-artist-display>
+        </div>
         <hr>
       </div>
     </ng-template>

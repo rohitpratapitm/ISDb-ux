@@ -1,4 +1,7 @@
 
+/**
+ * Equivalent interfaces for API contracts
+ */
 export enum TagType {
     ROOT = 'root',
     PROPERTY = 'p',
@@ -82,6 +85,8 @@ export interface SongResponse extends Response {
     release_date?: string;
     primary_artist?: ArtistResponse;
     writer_artists?: ArtistResponse[];
+    apple_music_player_url?: string;
+    header_image_url?: string;
 }
 
 export interface Album extends Response {
