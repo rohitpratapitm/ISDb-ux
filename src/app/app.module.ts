@@ -11,6 +11,7 @@ import { SearchComponentComponent } from './components/search-component/search-c
 import { SongDisplayComponent } from './components/song-display/song-display.component';
 import { ArtistDisplayComponent } from './components/artist-display/artist-display.component';
 import { InvalidCharactersDirective } from './common/invalid-characters/invalid-characters.directive';
+import { LyricsComponent } from './components/lyrics/lyrics.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { InvalidCharactersDirective } from './common/invalid-characters/invalid-
     SearchCriteriaDropdownComponent,
     SongDisplayComponent,
     ArtistDisplayComponent,
+    LyricsComponent,
     InvalidCharactersDirective
   ],
   imports: [

@@ -7,16 +7,22 @@
   </div>
   <div class="col-lg-9">
     <input class="form-control" type="search" appInvalidCharacters appInputRestriction="noSpecialChars" [(ngModel)]="query"
-  id="example-search-input" maxlength="MAX_QUERY_LENGTH" minlength="MIN_QUERY_LENGTH" required #name="ngModel"
+  id="example-search-input" [maxlength]="MAX_QUERY_LENGTH" [minlength]="MIN_QUERY_LENGTH" required #name="ngModel"
   pattern="/[A-Z]{5}\d{4}[A-Z]{1}/i" (keydown.enter)="getResults()" [placeholder]="placeholder">
+    <div *ngIf="name.errors.maxlength">
+      Query must not be greater than {{MAX_QUERY_LENGTH}} characters.
+    </div>
+    <div *ngIf="name.errors.minlength">
+      Query must be at least {{MIN_QUERY_LENGTH}} characters long.
+    </div>
   </div>
 </div>
 
 <div class="row">
   <div class="offset-2 col-lg-9">
-    <div *ngIf="searchCriteria === SEARCH_TYPE.Title; else artistTemplate">
+    <div *ngIf="searchCriteria === SEARCH_TYPE.Title && showResults; else artistTemplate">
       <div *ngFor="let song of songs | async">
-        <span (click)="emitSelectedSong(song)" style="color: blue; cursor: pointer">
+        <span (click)="emitSelectedSong(song);" style="color: blue; cursor: pointer">
           <app-song-display [song]="song"></app-song-display>
         </span>
         <hr>

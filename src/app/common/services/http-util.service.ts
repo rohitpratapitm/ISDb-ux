@@ -34,6 +34,20 @@ export class HttpUtilService {
     }).pipe(catchError(this.handleError));
   }
 
+  /**
+   * This method makes an HTTP GET call and returns typed data.
+   * @param url REST service end points
+   * @param params query parameters 
+   */
+  public getTextHTML(url: string, params?: HttpParams): Observable<string> {
+    return this.httpClient.get(url, {
+      headers: this.headers,
+      params,
+      responseType: 'text'
+    }).pipe(catchError(this.handleError));
+  }
+
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

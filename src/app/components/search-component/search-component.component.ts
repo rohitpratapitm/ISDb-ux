@@ -26,7 +26,7 @@ export class SearchComponentComponent {
   songs: Observable<Set<Song>>;
   artists: Observable<Set<Artist>>;
   query: string;
-  show: boolean = false;
+  showResults: boolean = true;
   placeholder: string = 'search by song title..';
   searchCriteria: SearchType = SearchType.Title; // default is Title
 
@@ -42,6 +42,7 @@ export class SearchComponentComponent {
     if (!this.query || this.query.length < this.MIN_QUERY_LENGTH || this.query.length > this.MAX_QUERY_LENGTH ){
       return;
     }
+    this.showResults = true;
     if (this.searchCriteria === SearchType.Title) {
       this.songs = this.searchService.searchSongsStream(this.query);
     }
@@ -62,6 +63,14 @@ export class SearchComponentComponent {
       searchType === SearchType.Title
         ? 'search by song title..'
         : 'search by artist name';
+    delete this.query; // reset query to empty
+    if (searchType === SearchType.Title) {
+      this.placeholder = 'search by song title..';
+      delete this.artists;
+    } else {
+      this.placeholder = 'search by artist name..';
+      delete this.songs;
+    }
   }
 
   /**
@@ -70,6 +79,7 @@ export class SearchComponentComponent {
    */
   emitSelectedSong(song: Song): void {
     this.selectedSong.emit(song);
+    this.showResults = false;
   }
 
   /**
@@ -78,5 +88,6 @@ export class SearchComponentComponent {
    */
   emitSelectedArtist(artist: Artist): void {
     this.selectedArtist.emit(artist);
+    this.showResults = true;
   }
 }

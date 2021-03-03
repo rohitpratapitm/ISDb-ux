@@ -8,6 +8,15 @@ const PROXY_CONFIG = {
     },
     "logLevel": "debug"
   },
+  "/genius-lyrics": {
+    "target": "https://genius.com",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/genius-lyrics": ""
+    },
+    "logLevel": "debug"
+  },
 
 }
 module.exports = PROXY_CONFIG;

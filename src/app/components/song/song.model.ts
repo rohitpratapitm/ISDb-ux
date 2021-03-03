@@ -10,5 +10,6 @@ export interface Song {
     album: Album;
     musicPlayerURL?: string;
     headerImageURL?: string;
-    
+    lyricsPath?: string;
+    lyricsURL?: string;
 }

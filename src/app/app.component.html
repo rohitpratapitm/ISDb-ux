@@ -12,7 +12,6 @@
               (selectedSong)="setSelectedSong($event)"
               (selectedArtist)="setSelectedArtist($event)">
         </app-search-component>
-          
         </div>
       </div>
 
@@ -21,24 +20,26 @@
   <section *ngIf="song || artist" class="dash-row">
     <mat-card id="card-0-1" style="color: white">
       <mat-card-title >
+        Album
       </mat-card-title>
-      <mat-card-subtitle style="color: white">www.yourwebsite.com</mat-card-subtitle>
+      <mat-card-subtitle style="color: white">Album cover</mat-card-subtitle>
       <img src="{{song?.headerImageURL}}" alt="Sorry.No image found!">
     </mat-card>
 
-    <mat-card id="card-0-2">
+    <mat-card *ngIf="song" id="card-0-2">
       <mat-card-title >
-        Info
+        Song Lyrics
       </mat-card-title>
-      <mat-card-subtitle>Percentage of annual spend</mat-card-subtitle>
-      <!-- <zingchart-angular [config]="allocatedBudget" [height]="'250px'"></zingchart-angular> -->
-
+      <mat-card-subtitle>See full lyrics <a href="{{song?.lyricsURL}}" target="_blank">here</a></mat-card-subtitle>
+      <app-lyrics [lyricsPath]="song?.lyricsPath"></app-lyrics>
     </mat-card>
-        <mat-card id="card-1-1">
+
+    <mat-card id="card-1-1">
       <mat-card-title style="color: white">
-        Music Player
+        Song Info
       </mat-card-title>
-      <mat-card-subtitle style="color: white">Your customer's interactions</mat-card-subtitle>
+      <mat-card-subtitle style="color: white">Details</mat-card-subtitle>
+      <app-song-display [song]="song"></app-song-display>
       <!-- <iframe src="{{getSafeURL(song?.musicPlayerURL)}}"></iframe> -->
     </mat-card>
 

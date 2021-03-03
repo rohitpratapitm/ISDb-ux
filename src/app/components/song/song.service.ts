@@ -41,7 +41,9 @@ export class SongProxy {
       singers: this.getArtists(new Set<ArtistResponse>([songResponse.primary_artist])),
       title: songResponse.title,
       musicPlayerURL: songResponse.apple_music_player_url,
-      headerImageURL: songResponse.header_image_url
+      headerImageURL: songResponse.header_image_url,
+      lyricsPath: songResponse.path,
+      lyricsURL: songResponse.url
     };
     return song;
   }
