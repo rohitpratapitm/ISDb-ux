@@ -5,7 +5,6 @@
   </header>
   <section class="dash-row">
     <mat-card id="welcome-message">
-    
       <div class="welcome__center">
         <div class="spark-container">
           <app-search-component class="col-lg-12"
@@ -17,33 +16,11 @@
 
       </mat-card>
   </section>
-  <section *ngIf="song || artist" class="dash-row">
-    <mat-card id="card-0-1" style="color: white">
-      <mat-card-title >
-        Album
-      </mat-card-title>
-      <mat-card-subtitle style="color: white">Album cover</mat-card-subtitle>
-      <img src="{{song?.headerImageURL}}" alt="Sorry.No image found!">
-    </mat-card>
-
-    <mat-card *ngIf="song" id="card-0-2">
-      <mat-card-title >
-        Song Lyrics
-      </mat-card-title>
-      <mat-card-subtitle>See full lyrics <a href="{{song?.lyricsURL}}" target="_blank">here</a></mat-card-subtitle>
-      <app-lyrics [lyricsPath]="song?.lyricsPath"></app-lyrics>
-    </mat-card>
-
-    <mat-card id="card-1-1">
-      <mat-card-title style="color: white">
-        Song Info
-      </mat-card-title>
-      <mat-card-subtitle style="color: white">Details</mat-card-subtitle>
-      <app-song-display [song]="song"></app-song-display>
-      <!-- <iframe src="{{getSafeURL(song?.musicPlayerURL)}}"></iframe> -->
-    </mat-card>
-
-  </section>
-
+  <div *ngIf="song">
+    <app-song-display [song]="song"></app-song-display>
+  </div>
+  <div *ngIf="artist">
+    <app-artist-display [artist]="artist"></app-artist-display>
+  </div>
 </div>
 

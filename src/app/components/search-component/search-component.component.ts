@@ -64,12 +64,15 @@ export class SearchComponentComponent {
         ? 'search by song title..'
         : 'search by artist name';
     delete this.query; // reset query to empty
+    this.showResults = false;
     if (searchType === SearchType.Title) {
       this.placeholder = 'search by song title..';
       delete this.artists;
+      this.emitSelectedSong(undefined); // to hide old results
     } else {
       this.placeholder = 'search by artist name..';
       delete this.songs;
+      this.emitSelectedArtist(undefined); // to hide old artist on change of title/artist dropdown
     }
   }
 
@@ -88,6 +91,6 @@ export class SearchComponentComponent {
    */
   emitSelectedArtist(artist: Artist): void {
     this.selectedArtist.emit(artist);
-    this.showResults = true;
+    this.showResults = false;
   }
 }

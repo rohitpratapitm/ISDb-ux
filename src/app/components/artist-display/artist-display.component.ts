@@ -8,7 +8,7 @@ import { Artist } from '../artist/artist.model';
 @Component({
   selector: 'app-artist-display',
   templateUrl: './artist-display.component.html',
-  styleUrls: ['./artist-display.component.css']
+  styleUrls: ['./artist-display.component.scss']
 })
 export class ArtistDisplayComponent  {
 

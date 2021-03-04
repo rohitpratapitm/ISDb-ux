@@ -20,22 +20,33 @@
 
 <div class="row">
   <div class="offset-2 col-lg-9">
-    <div *ngIf="searchCriteria === SEARCH_TYPE.Title && showResults; else artistTemplate">
+    <div *ngIf="searchCriteria === SEARCH_TYPE.Title && showResults">
       <div *ngFor="let song of songs | async">
         <span (click)="emitSelectedSong(song);" style="color: blue; cursor: pointer">
-          <app-song-display [song]="song"></app-song-display>
+          <div>
+            <div><strong>{{song?.album?.full_title}}</strong></div>
+            <div>{{song?.releaseDate}}</div>
+            <div *ngFor = "let singer of song?.singers">
+              <div>{{singer?.fullName}}</div>
+            </div>
+            <div><i>{{song?.title}}</i></div>
+          </div>
         </span>
         <hr>
       </div>
     </div>
-    <ng-template #artistTemplate>
+    <div *ngIf="searchCriteria === SEARCH_TYPE.Artist && showResults">
       <div *ngFor="let artist of artists | async">
-        <div (click)="emitSelectedArtist(artist)">
-          <app-artist-display [artist]="artist"></app-artist-display>
-        </div>
+        <span (click)="emitSelectedArtist(artist);" style="color: blue; cursor: pointer">
+          <div>
+            <span>
+              <img src="{{artist?.headerImageURL}}" alt="Sorry.No image found!" style="width:50px;height:50px;">
+            </span>
+            <span style="padding-left:100px;"><strong>{{artist?.fullName}}</strong></span>
+          </div>
+        </span>
         <hr>
       </div>
-    </ng-template>
-
+    </div>
   </div>
 </div>

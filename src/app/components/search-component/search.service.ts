@@ -8,6 +8,7 @@ import { ArtistProxy } from '../artist/artist.service';
 import { Song } from '../song/song.model';
 import {
   ApiHitsResponse,
+  ApiSongResponse,
   ApiResponseWrapper,
   HitsEnum,
   HttpStatusCode,
@@ -51,10 +52,18 @@ export class SearchService {
   private getSongDetailsStream(songResponses: Set<SongResponse>): Set<Song> {
     const songs: Set<Song> = new Set<Song>();
     songResponses.forEach((songResponse: SongResponse) =>
+    {
       this.songProxy
         .getSongStream(songResponse.id)
-        .subscribe((song) => songs.add(song))
-    );
+        .subscribe((song) => {
+          this.artistProxy
+            .getArtistStream(songResponse.primary_artist.id)
+            .subscribe((artist) => {
+              song.singers = new Set<Artist>().add(artist);
+              songs.add(song);
+            });
+        });
+    });  
     return songs;
   }
 
@@ -74,7 +83,13 @@ export class SearchService {
           artistIds.forEach((artistId: number) =>
             this.artistProxy
               .getArtistStream(artistId)
-              .subscribe((artist) => artists.add(artist))
+              .subscribe((artist) => {
+                this.getArtistSongsStream(artist.id, 'popularity', '1', '4')
+                  .subscribe(songs => {
+                    artist.songs = songs;
+                    artists.add(artist)
+                  });
+              })
           );
           return artists;
         })
@@ -126,12 +141,19 @@ export class SearchService {
   public mapSongsResponse(
     apiResponseWrapper: ApiResponseWrapper
   ): Set<SongResponse> {
+    const songResponses: Set<SongResponse> = new Set<SongResponse>();
     if (apiResponseWrapper.meta.status === HttpStatusCode.SUCCESS) {
-      const apiHitsResponse: ApiHitsResponse = apiResponseWrapper.response as ApiHitsResponse;
-      const songResponses: Set<SongResponse> = new Set<SongResponse>();
-      apiHitsResponse.hits
-        .filter((hit) => hit.type === HitsEnum.Song)
-        .forEach((hit) => songResponses.add(hit.result));
+      if (apiResponseWrapper.response && apiResponseWrapper.response['hits']) {
+          const apiHitsResponse: ApiHitsResponse = apiResponseWrapper.response as ApiHitsResponse;
+          if (apiHitsResponse && apiHitsResponse.hits && apiHitsResponse.hits.length) {
+            apiHitsResponse.hits
+            .filter((hit) => hit.type === HitsEnum.Song)
+            .forEach((hit) => songResponses.add(hit.result));
+          } 
+      } else if (apiResponseWrapper.response && apiResponseWrapper.response['songs']) {
+          const songResponseArray = apiResponseWrapper.response['songs'] as Array<SongResponse>;
+          songResponseArray.forEach(songResponse => songResponses.add(songResponse));
+      }
       return songResponses;
     }
   }

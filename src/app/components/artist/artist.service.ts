@@ -45,6 +45,9 @@ export class ArtistProxy {
           artist.fullName = artistResponse.name;
           artist.id = artistResponse.id;
           artist.bio = this.getBio(artistResponse.description);
+          artist.imageURL = artistResponse.image_url;
+          artist.headerImageURL = artistResponse.header_image_url;
+          artist.url = artistResponse.url;
         }
         return artist;
       })

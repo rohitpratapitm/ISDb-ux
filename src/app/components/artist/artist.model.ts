@@ -6,5 +6,8 @@ export interface Artist {
     fullName?: string;
     bio?: string;
     id?: number;
-    songs?: Song[];
+    songs?: Set<Song>;
+    url?: string;
+    imageURL?: string;
+    headerImageURL?: string;
 }

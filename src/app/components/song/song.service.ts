@@ -55,7 +55,8 @@ export class SongProxy {
         if (artistResponse) {
           const artist: Artist = {
             id: artistResponse.id,
-            fullName: artistResponse.name
+            fullName: artistResponse.name,
+            imageURL: artistResponse.image_url
           };
           artists.add(artist);
         }

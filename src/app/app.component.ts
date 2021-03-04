@@ -21,6 +21,7 @@ export class AppComponent {
 
   setSelectedSong(song: Song): void {
     this.song = song;
+    delete this.artist;
   }
 
   getSafeURL(url: string): SafeResourceUrl {
@@ -28,6 +29,7 @@ export class AppComponent {
   }
   setSelectedArtist(artist: Artist): void {
     this.artist = artist;
+    delete this.song;
   }
   
   

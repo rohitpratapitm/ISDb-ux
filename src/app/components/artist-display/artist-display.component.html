@@ -1,4 +1,28 @@
-<div onclick="location.href='#';" style="cursor: pointer;">
-    <div><strong>{{artist?.fullName}}</strong></div>
-    <div>{{artist?.bio}}</div>
-</div>
+<section class="dash-row">
+    <mat-card id="card-0-1" style="color: white">
+        <div onclick="location.href='#';" style="cursor: pointer;">
+            <div><h1>{{artist?.fullName}}</h1></div>
+            <img src="{{artist?.imageURL}}" alt="Sorry.No image found!" style="width:550px;height:550px;">
+            <br>
+        </div>
+    </mat-card>
+
+    <mat-card id="card-0-2">
+      <mat-card-title >
+        <h1>Bio</h1>
+      </mat-card-title>
+      <mat-card-subtitle>See full Biography <a href="{{artist?.url}}" target="_blank">here</a></mat-card-subtitle>
+      <div><i>{{artist?.bio}}</i></div>
+    </mat-card>
+ 
+    <mat-card id="card-1-1">
+        <div *ngFor="let song of artist?.songs">
+            <span>
+                <img src="{{song?.headerImageURL}}" alt="Sorry.No image found!" style="width:50px;height:50px;">
+            </span>
+            <span style="padding-left: 50px; color: black; font-size: 14px;"><strong>{{song?.album?.full_title}}</strong></span>
+            <div><span>{{song?.title}}</span></div>
+            <h4>{{song?.releaseDate}}</h4>
+        </div>
+    </mat-card>
+  </section>

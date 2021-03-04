@@ -19,12 +19,11 @@ export class LyricsService {
             let parser = new DOMParser();
             const root = parser.parseFromString(htmlContent, 'text/html');
             const lyrics = root.getElementsByTagName('routable-page')[0].getElementsByClassName('lyrics')[0].getElementsByTagName('p')[0].innerText;
-            console.log(lyrics);
             return lyrics;
         } catch (e) {
             console.log('Unable to parse document.');
             console.log(e.message);
-            throw e;
+            return 'No Lyrics found.'
         }
     }
 }
