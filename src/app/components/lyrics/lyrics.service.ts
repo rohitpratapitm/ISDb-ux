@@ -1,19 +1,39 @@
 import { Injectable } from "@angular/core";
-import { HttpUtilService } from '../../common/services/http-util.service';
+import { throwError } from "rxjs";
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { HttpUtilService } from '../../common/services/http-util.service';
 
-@Injectable({ providedIn: 'root'})
+/**
+ * This class loads lyrics information from lyrics html page
+ */
+@Injectable({ providedIn: 'root' })
 export class LyricsService {
 
     readonly ROOT_CONTEXT: string = '/genius-lyrics';
 
-    constructor(private httpUtilService: HttpUtilService) {}
+    constructor(private httpUtilService: HttpUtilService) { }
 
+    /**
+     * This method load the lyrics html page and then extracts the lyrics out of it
+     * @param lyricsPath url of lyrics page
+     * @returns observable stream of string(lyrics)
+     */
     public getLyricsStream(lyricsPath: string): Observable<string> {
-        return this.httpUtilService.getTextHTML(`${this.ROOT_CONTEXT}${lyricsPath}`).pipe(map((data:string) => this.parseData(data)));
+        return this.httpUtilService.getTextHTML(`${this.ROOT_CONTEXT}${lyricsPath}`)
+            .pipe(
+                map((data: string) => this.parseData(data)),
+                catchError(() => {
+                    return throwError('getLyricsStream service failed');
+                })
+            );
     }
 
+    /**
+     * This method parses the html document and derives the lyrics information from it
+     * @param htmlContent html document
+     * @returns lyrics
+     */
     public parseData(htmlContent: string): string {
         try {
             let parser = new DOMParser();

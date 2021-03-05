@@ -29,6 +29,8 @@ export class SearchComponentComponent {
   showResults: boolean = true;
   placeholder: string = 'search by song title..';
   searchCriteria: SearchType = SearchType.Title; // default is Title
+  noRecordsFound: boolean = false;
+  serviceFailed: boolean = false;
 
   constructor(
     private searchService: SearchService
@@ -39,15 +41,30 @@ export class SearchComponentComponent {
    * Ensures that query string adheres to minimum and maximum query length validation.
    */
   public getResults(): void {
-    if (!this.query || this.query.length < this.MIN_QUERY_LENGTH || this.query.length > this.MAX_QUERY_LENGTH ){
+    if (!this.query || this.query.length < this.MIN_QUERY_LENGTH || this.query.length > this.MAX_QUERY_LENGTH) {
       return;
     }
     this.showResults = true;
     if (this.searchCriteria === SearchType.Title) {
       this.songs = this.searchService.searchSongsStream(this.query);
+      this.songs.subscribe(result => {
+        this.serviceFailed = false;
+        this.noRecordsFound = result && result.size === 0;
+        console.log('No Records Found : ' + this.noRecordsFound);
+      }, (error) => {
+        console.log(error);
+        this.serviceFailed = true;
+      });
     }
     else if (this.searchCriteria === SearchType.Artist) {
-       this.artists = this.searchService.searchArtistsStream(this.query);
+      this.artists = this.searchService.searchArtistsStream(this.query);
+      this.artists.subscribe(result => {
+        this.serviceFailed = false;
+        this.noRecordsFound = result && result.size === 0;
+      }, (error) => {
+        console.log(error);
+        this.serviceFailed = true;
+      });
     } else {
       console.warn(`Unknown search criteria type received: ${this.searchCriteria}`);
     }

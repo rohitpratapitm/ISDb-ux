@@ -1,11 +1,34 @@
-# IsdbUx
+# Music Database
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.2.
+This application allows users to search song or artist information.
+It fetches information from genius api. 
+
+ 
+For artist, it displays the following info in 3 separate angular material tiles
+    1st tile: Singer name and image
+    2nd tile: Biodata
+    3rd tile: Top 5 popular Albums along with Title, sub title, release date and album cover thumbnale image
+
+For song, it displays the following info in 3 separate angular material tiles
+    1st tile: Album Title, sub title, release date and album cover image
+    2nd tile: Lyrics
+    3rd tile: Singer name, image and biodata
+
+Application key is being set in enviroment.prod.ts file. It can be changed in case if it exceeds its quota.
+Note: The genius api license is limited for 8K calls only.
+
 
 ## Development server
 
 Run `npm run buildserve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+## Build and run using docker
+Run `./start.sh` script to deploy and execute the app on docker.
+This script deploys the application on nginx server instance. See Dockerfile for more information.
+When adding a new api call, ensure that the relevant reverse proxy is added in nginx.conf file.
+
+Application will be available on: localhost
+port is default to 80.
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.

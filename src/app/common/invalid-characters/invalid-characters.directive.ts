@@ -1,11 +1,17 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
+/**
+ * This directive prevents invalid characters to be keyed into the input box.
+ */
 @Directive({
   selector: '[appInvalidCharacters]'
 })
 export class InvalidCharactersDirective {
   inputElement: ElementRef;
 
+  /**
+   * possible values of input are integer and noSpecialChars
+   */
   // tslint:disable-next-line:no-input-rename
   @Input('appInputRestriction') appInputRestriction: string;
   arabicRegex = '[\u0600-\u06FF]';
@@ -14,15 +20,23 @@ export class InvalidCharactersDirective {
     this.inputElement = el;
   }
 
+  /**
+   * This method check for invalid characters and suppressing them.
+   * @param event keypress event
+   */
   @HostListener('keypress', ['$event'])
   onKeyPress(event: Event): void {
     if (this.appInputRestriction === 'integer') {
       this.integerOnly(event);
     } else if (this.appInputRestriction === 'noSpecialChars') {
-      this.noSpecialChars(event);
+      this.noSpecialCharacters(event);
     }
   }
 
+  /**
+   * Checks if the event key is an integer
+   * @param event keypress event
+   */
   integerOnly(event): void {
     const e = event as KeyboardEvent;
     if (e.key === 'Tab' || e.key === 'TAB') {
@@ -42,37 +56,42 @@ export class InvalidCharactersDirective {
       // let it happen, don't do anything
       return;
     }
-    if (
-      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].indexOf(e.key) === -1
-    ) {
+    // if key is not a number then prevent/supress it.
+    if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].indexOf(e.key) === -1) {
       e.preventDefault();
     }
   }
 
-  noSpecialChars(event): void {
+  /**
+   * This method checks for special characters and suppressing them accordingly.
+   * @param event 
+   */
+  private noSpecialCharacters(event): void {
     const e = event as KeyboardEvent;
     if (e.key === 'Tab' || e.key === 'TAB') {
       return;
     }
     let k;
-    k = event.keyCode; // k = event.charCode;  (Both can be used)
-    if (
-      (k > 64 && k < 91) ||
-      (k > 96 && k < 123) ||
-      k === 8 ||
-      k === 32 ||
-      (k >= 48 && k <= 57)
-    ) {
-      return;
+    k = event.keyCode; 
+    if ((k > 64 && k < 91) || // if it is a lowercase alphabet
+        (k > 96 && k < 123) || // or upper case alphabet
+         k === 8 || // or backspace/delete
+         k === 32 || // or spacebar
+        (k >= 48 && k <= 57)) { // or number from 0-9
+      return; // then allow the keys and do NOTHING.
     }
     const ch = String.fromCharCode(e.keyCode);
     const regEx = new RegExp(this.arabicRegex);
-    if (regEx.test(ch)) {
-      return;
+    if (regEx.test(ch)) { // check special characters/string against regular expression
+      return; // if passes then do nothing
     }
-    e.preventDefault();
+    e.preventDefault(); // else this is an INVALID character and suppress it
   }
 
+  /**
+   * This method checks the pasted string for invalid characters
+   * @param event 
+   */
   @HostListener('paste', ['$event']) onPaste(event): void {
     let regex;
     if (this.appInputRestriction === 'integer') {

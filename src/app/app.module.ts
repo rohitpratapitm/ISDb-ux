@@ -14,6 +14,9 @@ import { InvalidCharactersDirective } from './common/invalid-characters/invalid-
 import { LyricsComponent } from './components/lyrics/lyrics.component';
 
 
+/**
+ * Main Application Module
+ */
 @NgModule({
   declarations: [
     AppComponent,

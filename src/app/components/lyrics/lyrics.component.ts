@@ -1,9 +1,10 @@
 
 import { Component, Input } from '@angular/core';
-import { Song } from '../song/song.model';
-import { HttpUtilService } from '../../common/services/http-util.service';
 import { LyricsService } from './lyrics.service';
 
+/**
+ * This component loads and displays song lyrics
+ */
 @Component({
   selector: 'app-lyrics',
   templateUrl: './lyrics.component.html'
@@ -17,6 +18,7 @@ export class LyricsComponent  {
   set lyricsPath(value: string) {
     if (value !== this._lyricsPath) {
         this._lyricsPath = value;
+        // load lyrics from the path
         this.lyricsService.getLyricsStream(this._lyricsPath).subscribe(lyrics => this.lyrics = lyrics);
     }
   }

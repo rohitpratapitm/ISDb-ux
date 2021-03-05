@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EnumSelector } from '../../services/enum-selector';
 
+/**
+ * This component displays enum values in a dropdown.
+ */
 @Component({
   selector: 'app-enum-selector',
   templateUrl: './enum-selector.component.html'
@@ -40,6 +43,10 @@ export class EnumSelectorComponent<T> {
   @Output()
   private onChange: EventEmitter<EnumValueOnChangePayload<T>> = new EventEmitter<EnumValueOnChangePayload<T>>();
 
+  /**
+   * This method emits the selected enum value.
+   * @param key 
+   */
   triggerOnChangeEvent(key: string): void {
     const enumValueOnChangedPayload: EnumValueOnChangePayload<T> = {key, value: this.enumValue.getEnumValue(key) };
     this.onChange.emit(enumValueOnChangedPayload);

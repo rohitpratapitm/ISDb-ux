@@ -1,17 +1,10 @@
-import {
-  ApiResponseWrapper,
-  HttpStatusCode,
-  ArtistResponse,
-  ApiArtistResponse,
-  Description,
-  PropertyChildrenContainer,
-  AttributeChild,
-  PropertyChildren,
-} from './artist-api-response.model';
 import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { HttpUtilService } from 'src/app/common/services/http-util.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  ApiArtistResponse, ApiResponseWrapper, ArtistResponse, AttributeChild, Description, HttpStatusCode, PropertyChildren, PropertyChildrenContainer
+} from './artist-api-response.model';
 import { Artist } from './artist.model';
 
 /**
@@ -24,7 +17,7 @@ export class ArtistProxy {
 
   URL: string = '/genius-api/artists';
 
-  constructor(private httpUtil: HttpUtilService) {}
+  constructor(private httpUtil: HttpUtilService) { }
 
   /**
    * This method fetches artist information for a given artist Id.
@@ -50,10 +43,13 @@ export class ArtistProxy {
           artist.url = artistResponse.url;
         }
         return artist;
+      }),
+      catchError(() => {
+        return throwError('getArtistsStream service failed');
       })
     );
   }
-  
+
   /**
    * This method reads bio information from description object.
    * API keeps bio infomation in embedded objects with links and references.

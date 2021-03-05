@@ -34,6 +34,12 @@
         </span>
         <hr>
       </div>
+      <!-- <div *ngIf="noRecordsFound">
+        <p style="color: red;">No results found.</p>
+      </div> -->
+      <div *ngIf="serviceFailed">
+        <p style="color: red;">Service failed to fetch data. Please contact administrator or try after sometime.</p>
+      </div>
     </div>
     <div *ngIf="searchCriteria === SEARCH_TYPE.Artist && showResults">
       <div *ngFor="let artist of artists | async">
@@ -46,6 +52,12 @@
           </div>
         </span>
         <hr>
+      </div>
+      <!-- <div *ngIf="noRecordsFound">
+        <p style="color: red;">No results found.</p>
+      </div> -->
+      <div *ngIf="serviceFailed">
+        <p style="color: red;">Service failed to fetch data. Please contact administrator or try after sometime.</p>
       </div>
     </div>
   </div>

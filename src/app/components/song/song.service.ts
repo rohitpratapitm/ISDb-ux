@@ -1,11 +1,12 @@
-import { ApiResponseWrapper, HttpStatusCode, ArtistResponse, SongResponse, ApiSongResponse } from './../artist/artist-api-response.model';
-import { Song } from './song.model';
-import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { HttpUtilService } from 'src/app/common/services/http-util.service';
 import { Artist } from '../artist/artist.model';
+import { ApiResponseWrapper, ApiSongResponse, ArtistResponse, HttpStatusCode, SongResponse } from './../artist/artist-api-response.model';
+import { Song } from './song.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,11 @@ export class SongProxy {
     const SONG_URL: string = `${this.URL}/${id}`;
     const httpParams: HttpParams = new HttpParams().set('id', id.toString());
     return this.httpUtil.get<ApiResponseWrapper>(SONG_URL, httpParams)
-      .pipe(map(apiResponseWrapper => this.mapResponse(apiResponseWrapper)));
+      .pipe(map(apiResponseWrapper => this.mapResponse(apiResponseWrapper)),
+        catchError(() => {
+          return throwError('getSongStream service failed');
+        })
+      );
   }
 
   public mapResponse(apiResponseWrapper: ApiResponseWrapper): Song {
