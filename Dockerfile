@@ -1,15 +1,21 @@
-FROM nginx
+FROM node:14
 
-## Remove default nginx index page
-RUN rm -rf /etc/nginx/nginx.conf
+#Create app directory
+WORKDIR /usr/src/app
 
-COPY nginx.conf /etc/nginx/nginx.conf
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
 
-## Remove default nginx index page
-RUN rm -rf /usr/share/nginx/html
+# Bundle app source
+COPY . .
 
-COPY dist/isdb-ux /usr/share/nginx/html
-EXPOSE 4200 80
-CMD ["nginx", "-g", "daemon off;"]
+RUN npm run build
+COPY dist/isdb-ux /usr/src/app
+EXPOSE 4200 4200
+CMD ["node", "server.js"]
