@@ -1,14 +1,14 @@
-
-
 <div class="row form-group">
   <div class="offset-1 col-lg-1">
-    <app-search-criteria-dropdown [selectedSearchType]="searchCriteria" (selectedCriteria)="setSearchPlaceholder($event)">
+    <app-search-criteria-dropdown [selectedSearchType]="searchCriteria"
+      (selectedCriteria)="setSearchPlaceholder($event)">
     </app-search-criteria-dropdown>
   </div>
   <div class="col-lg-9">
-    <input class="form-control" type="search" appInvalidCharacters appInputRestriction="noSpecialChars" [(ngModel)]="query"
-  id="example-search-input" [maxlength]="MAX_QUERY_LENGTH" [minlength]="MIN_QUERY_LENGTH" required #name="ngModel"
-  pattern="/[A-Z]{5}\d{4}[A-Z]{1}/i" (keydown.enter)="getResults()" [placeholder]="placeholder">
+    <input class="form-control" type="search" appInvalidCharacters appInputRestriction="noSpecialChars"
+      [(ngModel)]="query" id="example-search-input" [maxlength]="MAX_QUERY_LENGTH" [minlength]="MIN_QUERY_LENGTH"
+      required #name="ngModel" pattern="/[A-Z]{5}\d{4}[A-Z]{1}/i" (keydown.enter)="getResults()"
+      [placeholder]="placeholder">
     <div *ngIf="name.errors.maxlength">
       Query must not be greater than {{MAX_QUERY_LENGTH}} characters.
     </div>
@@ -26,7 +26,7 @@
           <div>
             <div><strong>{{song?.album?.full_title}}</strong></div>
             <div>{{song?.releaseDate}}</div>
-            <div *ngFor = "let singer of song?.singers">
+            <div *ngFor="let singer of song?.singers">
               <div>{{singer?.fullName}}</div>
             </div>
             <div><i>{{song?.title}}</i></div>

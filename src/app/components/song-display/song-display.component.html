@@ -1,15 +1,21 @@
 <section class="dash-row">
   <mat-card id="card-0-1" style="color: white">
-    <mat-card-title><h1>{{song?.album?.full_title}}</h1></mat-card-title>
+    <mat-card-title>
+      <h1>{{song?.album?.full_title}}</h1>
+    </mat-card-title>
     <mat-card-subtitle style="color: white">
-      <div><h2>{{song?.title}}</h2></div>
-      <div><h3>{{song?.releaseDate}}</h3></div>
+      <div>
+        <h2>{{song?.title}}</h2>
+      </div>
+      <div>
+        <h3>{{song?.releaseDate}}</h3>
+      </div>
     </mat-card-subtitle>
     <img src="{{song?.headerImageURL}}" alt="Sorry.No image found!" style="width:520px;height:700px;">
   </mat-card>
 
   <mat-card id="card-0-2">
-    <mat-card-title >
+    <mat-card-title>
       Song Lyrics
     </mat-card-title>
     <mat-card-subtitle>See full lyrics <a href="{{song?.lyricsURL}}" target="_blank">here</a></mat-card-subtitle>
@@ -19,7 +25,9 @@
   <mat-card id="card-1-1">
     <div *ngFor="let artist of song?.singers">
       <div onclick="location.href='#';" style="cursor: pointer;">
-        <div><h1>{{artist?.fullName}}</h1></div>
+        <div>
+          <h1>{{artist?.fullName}}</h1>
+        </div>
         <img src="{{artist?.imageURL}}" alt="Sorry.No image found!" style="width:550px;height:550px;">
         <br>
         <div>{{artist?.bio}}</div>
