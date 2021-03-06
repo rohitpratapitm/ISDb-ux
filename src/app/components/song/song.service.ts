@@ -8,6 +8,9 @@ import { Artist } from '../artist/artist.model';
 import { ApiResponseWrapper, ApiSongResponse, ArtistResponse, HttpStatusCode, SongResponse } from './../artist/artist-api-response.model';
 import { Song } from './song.model';
 
+/**
+ * This service fetch song details for a given song Id. It maps 3rd part song response to in-house Song response type.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +21,11 @@ export class SongProxy {
 
   constructor(private httpUtil: HttpUtilService) { }
 
+  /**
+   * Method to fetch song details stream.
+   * @param id song Id
+   * @returns Observable stream of Song.
+   */
   public getSongStream(id: number): Observable<Song> {
     const SONG_URL: string = `${this.URL}/${id}`;
     const httpParams: HttpParams = new HttpParams().set('id', id.toString());
@@ -29,6 +37,11 @@ export class SongProxy {
       );
   }
 
+  /**
+   * This method derives properties from ApiResponseWrapper and then maps it to in-house Song interface.
+   * @param apiResponseWrapper ApiResponseWrapper object
+   * @returns Song 
+   */
   public mapResponse(apiResponseWrapper: ApiResponseWrapper): Song {
     if (apiResponseWrapper.meta.status === HttpStatusCode.SUCCESS) {
       const apiSongResponse: ApiSongResponse = apiResponseWrapper.response as ApiSongResponse;
@@ -37,6 +50,11 @@ export class SongProxy {
     }
   }
 
+  /**
+   * This method maps properties from SongResponse(3rd party) contract to Song(in-house)contract.
+   * @param songResponse 3rd party song response object
+   * @returns in-house song object
+   */
   public mapSong(songResponse: SongResponse): Song {
     const song: Song = {
       id: songResponse.id,
@@ -53,6 +71,11 @@ export class SongProxy {
     return song;
   }
 
+  /**
+   * This method maps properties from ArtistResponse(3rd party) contract to Artist(in-house)contract.
+   * @param artistsResponse 3rd party artist response object
+   * @returns in-house artist object
+   */
   private getArtists(artistsResponse: Set<ArtistResponse>): Set<Artist> {
     if (artistsResponse) {
       const artists: Set<Artist> = new Set<Artist>();

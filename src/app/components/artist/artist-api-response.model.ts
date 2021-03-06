@@ -1,6 +1,6 @@
 
 /**
- * Equivalent interfaces for Genius API contracts
+ * Equivalent in-house interfaces for Genius API contracts(3rd party)
  */
 export enum TagType {
     ROOT = 'root',
