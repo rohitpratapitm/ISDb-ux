@@ -19,19 +19,28 @@ Note:
 The genius api license is limited for 8K calls only.
 Application key is being set in enviroment.prod.ts file. It can be changed in case if it exceeds its quota.
 
+## Build Project dependencies
+Run `npm install`
 
-## Development server
-
+## Build and Run Development server
 Run `npm run buildserve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 It uses in-built light-weight angular dev server.
 
-## Run production server
+## Run Development server
+Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+It serves and deploys already built project contents from dist folder.
+
+## Build and Run production server
 Run `npm run buildserve:prod` for a prod server. Navigate to `http://localhost:4200/`. 
 It uses express server.
 
+## Run production server
+Run `node server.js` for a prod server. Navigate to `http://localhost:4200/`. 
+It serves and deploys already built project contents from dist folder.
+
 ## Run production server using docker
 Run `./start.sh` script to deploy and execute the app on docker. Navigate to `http://localhost:80/` or just `http://localhost`.  
-
+It copies already built project contents from dist folder.
 This script deploys the application on nginx server instance. See Dockerfile for more information.
 When adding a new api call, ensure that the relevant reverse proxy is added in nginx.conf file.
 It uses nginx server.
