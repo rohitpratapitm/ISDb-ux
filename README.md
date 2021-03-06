@@ -29,6 +29,13 @@ It uses in-built light-weight angular dev server.
 Run `npm run buildserve:prod` for a prod server. Navigate to `http://localhost:4200/`. 
 It uses express server.
 
+## Run production server using docker
+Run `./start.sh` script to deploy and execute the app on docker. Navigate to `http://localhost:80/` or just `http://localhost`.  
+
+This script deploys the application on nginx server instance. See Dockerfile for more information.
+When adding a new api call, ensure that the relevant reverse proxy is added in nginx.conf file.
+It uses nginx server.
+
 ## Build and run using docker
 1. Build the application by executing `npm run build`
 2. Run `./start.sh` script to deploy and execute the app on docker. Navigate to `http://localhost:80/` or just `http://localhost`.  
